@@ -2,9 +2,13 @@
 //--------------------------------------------------
 // インクルード
 //--------------------------------------------------
+#ifdef _WIN32
+#define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#endif
 #include <stdio.h>
+#include <string.h>
 #include "clHCA.h"
 
 //--------------------------------------------------
@@ -109,14 +113,14 @@ int main(int argc, char *argv[]) {
 		if (i)filenameOut = NULL;
 
 		// デフォルト出力ファイル名
-		char path[MAX_PATH];
+		char path[256];
 		if (!(filenameOut&&filenameOut[0])) {
-			strcpy_s(path, sizeof(path), argv[i]);
+			strcpy(path, argv[i]);
 			char *d1 = strrchr(path, '\\');
 			char *d2 = strrchr(path, '/');
 			char *e = strrchr(path, '.');
 			if (e&&d1<e&&d2<e)*e = '\0';
-			strcat_s(path, sizeof(path), ".wav");
+			strcat(path, ".wav");
 			filenameOut = path;
 		}
 
