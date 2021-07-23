@@ -67,7 +67,7 @@ bool clHCA::PrintInfo(const char *filenameHCA) {
 
 	// HCAファイルを開く
 	FILE *fp = fopen(filenameHCA, "rb");
-	if (fp) {
+	if (!fp) {
 		printf("Error: ファイルが開けませんでした。\n");
 		return false;
 	}
@@ -315,7 +315,7 @@ bool clHCA::Decrypt(const char *filenameHCA) {
 
 	// HCAファイルを開く
 	FILE *fp = fopen(filenameHCA, "r+b");
-	if (fp)return false;
+	if (!fp)return false;
 
 	// ヘッダチェック
 	stHeader header;
@@ -466,7 +466,7 @@ bool clHCA::DecodeToWavefile(const char *filenameHCA, const char *filenameWAV, f
 
 	// HCAファイルを開く
 	FILE *fp = fopen(filenameHCA, "rb");
-	if (fp)return false;
+	if (!fp)return false;
 
 	// 保存
 	if (!DecodeToWavefileStream(fp, filenameWAV, volume, mode, loop)) { fclose(fp); return false; }
@@ -501,7 +501,7 @@ bool clHCA::DecodeToWavefileStream(void *fpHCA, const char *filenameWAV, float v
 
 	// WAVEファイルを開く
 	FILE *fp2 = fopen(filenameWAV, "wb");
-	if (fp2) { delete[] data1; return false; }
+	if (!fp2) { delete[] data1; return false; }
 
 	// WAVEヘッダを書き込み
 	struct stWAVEHeader {
